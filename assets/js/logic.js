@@ -1,11 +1,7 @@
-// $(document).ready(function () {
-//set var
 var fir_loc;
 var sec_loc;
 var map;
 var infowindow;
-// var latitude;
-// var longitude; 
 lat_lng = {
     lat: 0,
     lng: 0
@@ -27,7 +23,9 @@ var Coords = [{
         lng: 0
     }
 ];
+let places_added = [];
 $("#point_A").focus();
+
 
 //go functio
 $("#go").on("click", function (event) {
@@ -37,8 +35,6 @@ $("#go").on("click", function (event) {
     $("#point_A_drop").text(fir_loc);
     $("#point_B_drop").text(sec_loc);
     calculateRoute(fir_loc, sec_loc);
-    // console.log(fir_loc);
-    // console.log(sec_loc);
     $("#point_A").val("");
     $("#point_B").val("");
 })
@@ -63,8 +59,6 @@ function initialize() {
     var map = new google.maps.Map(document.getElementById("map_display"), myOptions);
     //calling the auto complete func in side the function to avoid having two calls back in js in html.
     autoCompleteInput();
-
-
 }
 
 //get Lat and Long for each location
@@ -82,9 +76,6 @@ function GetLatlong_A() {
             Coords[0].lat = latitude;
             Coords[0].lng = longitude;
             calculateRoute();
-            // console.log("Point A longitude: " + latitude + ' HERE   ' + lat_lng_A.lat);
-            // console.log("Point A longitude: " + longitude + ' HERE  ' + lat_lng_A.lng);
-            // console.log(Coords)
         }
     })
 }; //end of latLong function
@@ -103,9 +94,6 @@ function GetLatlong_B() {
             Coords[1].lat = latitude;
             Coords[1].lng = longitude;
             calculateRoute();
-            // console.log(Coords)
-            // console.log("Point B longitude: " + latitude + ' HERE   ' + lat_lng_B.lat);
-            // console.log("Point B longitude: " + longitude + ' HERE  ' + lat_lng_B.lng);
 
         }
     })
@@ -113,8 +101,6 @@ function GetLatlong_B() {
 
 //showing direction on map
 function calculateRoute() {
-    d = Math.sqrt((lat_lng_B.lat - lat_lng_A.lat) ** 2 + (lat_lng_B.lng - lat_lng_A.lng) ** 2);
-    // console.log(d);
     GetLatlong_B()
     GetLatlong_A();
 
@@ -146,12 +132,12 @@ function calculateRoute() {
         }
     );
 
+
     $("select").change(function () {
         var point_of_interest = "";
         $("select option:selected").each(function () {
             point_of_interest = $(this).val();
         });
-        // console.log(point_of_interest = $(this).val());
 
         if ($("#drop_down_loc option:selected").text() === fir_loc) {
             // console.log("true")
@@ -180,28 +166,35 @@ function calculateRoute() {
             }
 
             function createMarker(place) {
-                // var placeLoc = place.geometry.location;
                 var marker = new google.maps.Marker({
                     map: map,
                     position: place.geometry.location
                 });
-                console.log(place);
-                // console.log(place.vicinity);
 
                 google.maps.event.addListener(marker, 'click', function () {
                     infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
                     infowindow.open(map, this);
                     $(".add_btn").on("click", function () {
-                        $("#list_display").append("<div class= places_card>" + "<button class=btn-primary>Remove Me</button><br><strong>" + place.name + "</strong><br>" + place.vicinity + "</div>");
+                        if (places_added.includes(place.name)) {
+                            alert("Already Added");
+                            return;
+                        } else {
+                            places_added.push(place.name);
+                            console.log(places_added);
+                            let list_display = $("#list_display");
+                            let places_card = $("<div class= places_card></div>")
+                            list_display.append(places_card)
+                            places_card.append("<button name=remove class=btn-danger>Remove Me</button><br><strong>" + place.name + "</strong><br>" + place.vicinity);
+                        }
                     });
+
                 });
             }
-
         } else if ($("#drop_down_loc option:selected").text() === sec_loc) {
             // console.log("false")
             map = new google.maps.Map(document.getElementById('map_display'), {
                 //changing this will work to change point of interest location0
-                
+
                 center: lat_lng_B,
                 zoom: 8
             });
@@ -237,10 +230,22 @@ function calculateRoute() {
                     infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
                     infowindow.open(map, this);
                     $(".add_btn").on("click", function () {
-                        $("#list_display").append("<div class= places_card>" + "<button class=btn-primary>Remove Me</button>" + place.name + "<br>" + place.vicinity + "</div>");
+                        if (places_added.includes(place.name)) {
+                            alert("Already Added");
+                            return;
+                        } else {
+                            places_added.push(place.name);
+                            console.log(places_added);
+                            let list_display = $("#list_display");
+                            let places_card = $("<div class= places_card></div>")
+                            list_display.append(places_card)
+                            places_card.append("<button name=remove class=btn-danger>Remove Me</button><br><strong>" + place.name + "</strong><br>" + place.vicinity);
+                        }
+
                     });
                 });
             }
         }
     })
+
 }
