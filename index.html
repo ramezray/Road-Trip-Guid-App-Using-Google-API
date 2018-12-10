@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--css reset file-->
+    <!-- <link rel="stylesheet" href="reset.css"> -->
+    <!--Bootstrap link-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <!-- CSS link -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <!--link to jQuery-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <!-- Googole fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <!--Link to AJAX-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!--Add Firebase Link-->
+    <!-- <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script> -->
+    <title>GOPHAR-Road-Trip-Guide</title>
+</head>
+
+<body>
+    <div class="container">
+        <!--image-->
+        <div class="logo_container">
+            <img id="logo_image" class="col-12 pr-1 pl-1 mt-1" src="assets/images/logo_image.png" alt="logo" />
+        </div>
+
+        <!--search inputs-->
+        <div class="row center col-12 mt-2 ml-5 mr-5 mb-1">
+            <form class="form-inline ">
+                <input type="text" class="form-control mb-2 mr-5 mx-lg-5 " id="point_A" placeholder="Enter Location ">
+                <div class="input-group mb-2 mx-lg-5">
+                    <input type="text" class="form-control " id="point_B" placeholder="Enter Location">
+                </div>
+
+            </form>
+            <div>
+                <button id="go" type="submit" class="btn btn-primary mb-2">GO</button>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row col-12 display-inline">
+                <div class="col-6  p-2 text-center">
+                    <label for="drop_down_loc">Show Places at </label>
+                    <select id="drop_down_loc" class="custom-select">
+                        <option id="point_A_drop" value="point_A"></option>
+                        <option id="point_B_drop" value="point_B"></option>
+                    </select>
+                </div>
+                <div class="col-6 p-2 text-center ">
+                    <label for="drop_down_plc">Point Of Interest</label>
+                    <select id="drop_down_plc" class="custom-select">
+                        <option value=""></option>
+                        <option value="airport">Airport</option>
+                        <option value="restaurant">Restaurant</option>
+                        <option value="atm">ATMs</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- map & places -->
+        <div class="jumbotron row p-1">
+            <!-- map -->
+            <div id="map_display" class="col-12 "></div>
+
+
+        </div>
+
+        <!-- Display places -->
+        <!-- list -->
+        <div id="list_display" class="card mr-0 pb-3">
+            <span>
+                <p id="stop_header" class="mt-2">Places to Visit</p>
+            </span>
+            
+        </div>
+
+    </div>
+    <!--link to JS-->
+    <script src="assets/js/logic.js"></script>
+
+    <!-- Maps -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry&key=AIzaSyBAIKAtjZeY9SStYI_Dr7XDiALX17AkK0Y&libraries=places&callback=initialize"></script>
+
+</body>
+
+</html>
