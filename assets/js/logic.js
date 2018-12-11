@@ -29,12 +29,14 @@ $("#point_A").focus();
 
 //go functio
 $("#go").on("click", function (event) {
+    $("#list_display").val("")
     event.preventDefault();
     fir_loc = $("#point_A").val().trim();
     sec_loc = $("#point_B").val().trim();
     $("#point_A_drop").text(fir_loc);
     $("#point_B_drop").text(sec_loc);
     calculateRoute(fir_loc, sec_loc);
+    initMap();
     $("#point_A").val("");
     $("#point_B").val("");
 })
@@ -140,7 +142,6 @@ function calculateRoute() {
         });
 
         if ($("#drop_down_loc option:selected").text() === fir_loc) {
-            // console.log("true")
             map = new google.maps.Map(document.getElementById('map_display'), {
                 //changing this will work to change point of interest location
                 center: lat_lng_A,
@@ -148,7 +149,6 @@ function calculateRoute() {
             });
             infowindow = new google.maps.InfoWindow();
             var service = new google.maps.places.PlacesService(map);
-            // console.log(Coords)
 
             service.nearbySearch({
                 //changing this will work to change point of interest location
@@ -171,7 +171,7 @@ function calculateRoute() {
                     position: place.geometry.location
                 });
 
-                google.maps.event.addListener(marker, 'click', function () {
+                google.maps.event.addListener(marker, 'mouseover', function () {
                     infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
                     infowindow.open(map, this);
                     $(".add_btn").on("click", function () {
@@ -224,9 +224,13 @@ function calculateRoute() {
                     map: map,
                     position: place.geometry.location
                 });
+                console.log(place.name)
+                console.log(place.photos[0].getUrl());
+                console.log(place.vicinity);
 
 
-                google.maps.event.addListener(marker, 'click', function () {
+
+                google.maps.event.addListener(marker, 'mouseover', function () {
                     infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
                     infowindow.open(map, this);
                     $(".add_btn").on("click", function () {
@@ -249,3 +253,41 @@ function calculateRoute() {
     })
 
 }
+
+function initMap() {
+    var directionsDisplay = new google.maps.DirectionsRenderer;
+    var directionsService = new google.maps.DirectionsService;
+    var map = new google.maps.Map(document.getElementById("map_display"), {
+        zoom: 7,
+        center: {
+            lat: 41.85,
+            lng: -87.65
+        }
+    });
+    directionsDisplay.setMap(map);
+    directionsDisplay.setPanel(document.getElementById("direction_display"));
+
+    var onChangeHandler = function () {
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+    };
+    document.getElementById('point_A_drop').addEventListener('change', onChangeHandler);
+    document.getElementById('point_B_drop').addEventListener('change', onChangeHandler);
+    calculateAndDisplayRoute(directionsService, directionsDisplay);
+}
+
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+    var start = document.getElementById('point_A').value;
+    var end = document.getElementById('point_B').value;
+    directionsService.route({
+        origin: start,
+        destination: end,
+        travelMode: 'DRIVING'
+    }, function (response, status) {
+        if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+        } else {
+            window.alert('Directions request failed due to ' + status);
+        }
+    });
+}
+
