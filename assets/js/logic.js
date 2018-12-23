@@ -184,7 +184,8 @@ function calculateRoute() {
                             let list_display = $("#list_display");
                             let places_card = $("<div class= places_card></div>")
                             list_display.append(places_card)
-                            places_card.append("<button name=remove class=btn-danger>Remove Me</button><br><strong>" + place.name + "</strong><br>" + place.vicinity);
+                            places_card.append("<button id=remove class=btn-danger>Remove Me</button>");
+                            places_card.append("<br><strong>" +place.name + "</strong><br>" + place.vicinity);
                         }
                     });
 
@@ -228,8 +229,6 @@ function calculateRoute() {
                 console.log(place.photos[0].getUrl());
                 console.log(place.vicinity);
 
-
-
                 google.maps.event.addListener(marker, 'mouseover', function () {
                     infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
                     infowindow.open(map, this);
@@ -243,9 +242,9 @@ function calculateRoute() {
                             let list_display = $("#list_display");
                             let places_card = $("<div class= places_card></div>")
                             list_display.append(places_card)
-                            places_card.append("<button name=remove class=btn-danger>Remove Me</button><br><strong>" + place.name + "</strong><br>" + place.vicinity);
+                            places_card.append("<button id=remove class=btn-danger>Remove Me</button>");
+                            places_card.append("<br><strong>" +place.name + "</strong><br>" + place.vicinity);
                         }
-
                     });
                 });
             }
@@ -253,6 +252,7 @@ function calculateRoute() {
     })
 
 }
+
 
 function initMap() {
     var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -290,4 +290,8 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         }
     });
 }
+$("#remove").click("click",function(){
+    console.log("clickk");
+    
+})
 

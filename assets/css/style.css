@@ -1,8 +1,19 @@
 body {
-    background-color: #51a3a3;
+    /* background-color: #51a3a3; */
+    background: url("../images/bg-2.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
     margin-bottom: 50px;
-
 }
+body h1 {
+    font-family: 'Bungee Inline', cursive;
+    font-size: 100px;
+    text-align: center;
+}
+
 
 #logo_image {
     height: 200px;
