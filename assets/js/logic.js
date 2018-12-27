@@ -26,9 +26,22 @@ var Coords = [{
 let places_added = [];
 $("#point_A").focus();
 
+/* Get all elements with class="close" */
+var closebtns = $("#close");
+var i;
+
+/* Loop through the elements, and hide the parent, when clicked on */
+for (i = 0; i < closebtns.length; i++) {
+    closebtns[i].addEventListener("click", function () {
+        console.log("clicked");
+        
+        this.parentElement.style.display = 'none';
+    })};
+
 
 //go functio
 $("#go").on("click", function (event) {
+
     $("#list_display").val("")
     event.preventDefault();
     fir_loc = $("#point_A").val().trim();
@@ -40,6 +53,7 @@ $("#go").on("click", function (event) {
     $("#point_A").val("");
     $("#point_B").val("");
 })
+
 
 
 //here is a function to help user type cities name by AUTOCOMPLETE 
@@ -174,6 +188,8 @@ function calculateRoute() {
                 google.maps.event.addListener(marker, 'mouseover', function () {
                     infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
                     infowindow.open(map, this);
+                    console.log(place);
+
                     $(".add_btn").on("click", function () {
                         if (places_added.includes(place.name)) {
                             alert("Already Added");
@@ -182,10 +198,13 @@ function calculateRoute() {
                             places_added.push(place.name);
                             console.log(places_added);
                             let list_display = $("#list_display");
-                            let places_card = $("<div class= places_card></div>")
-                            list_display.append(places_card)
-                            places_card.append("<button id=remove class=btn-danger>Remove Me</button>");
-                            places_card.append("<br><strong>" +place.name + "</strong><br>" + place.vicinity);
+                            list_display.append("<ul><li><img src="+place.icon+ "><strong>" + place.name + "</strong> - Address is: " + "<button id=close class=btn-danger >x </button>" + place.vicinity + "   - Rating: "+ place.rating+"</li></ul>")
+
+
+                            // let places_card = $("<div class= places_card></div>")
+                            // list_display.append(places_card)
+                            // places_card.append("<button id=remove class=btn-danger>Remove Me</button>");
+                            // places_card.append("<br><strong>" +place.name + "</strong><br>" + place.vicinity);
                         }
                     });
 
@@ -243,7 +262,7 @@ function calculateRoute() {
                             let places_card = $("<div class= places_card></div>")
                             list_display.append(places_card)
                             places_card.append("<button id=remove class=btn-danger>Remove Me</button>");
-                            places_card.append("<br><strong>" +place.name + "</strong><br>" + place.vicinity);
+                            places_card.append("<br><strong>" + place.name + "</strong><br>" + place.vicinity);
                         }
                     });
                 });
@@ -290,8 +309,4 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         }
     });
 }
-$("#remove").click("click",function(){
-    console.log("clickk");
-    
-})
 
