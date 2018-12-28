@@ -184,7 +184,11 @@ function calculateRoute() {
                         } else {
                             places_added.push(place.name);
                             let list_display = $("#list_display");
-                            list_display.append("<ul><li><img id=place_img src=" + place.photos[0].getUrl() + "><strong>" + place.name + " - Address is: " + place.vicinity + "</strong><button id=close class=btn-danger onclick=this.parentNode.remove()>X</button></li></ul>")
+                            list_display.append("<ul><li><img id=place_img src=" + place.photos[0].getUrl() + "><strong>" + place.name + " - Address is: " + place.vicinity + "</strong><button id=close class=btn-danger>X</button></li></ul>")
+                            $(".btn-danger").on("click", function () {
+                                places_added.pop(place.name)
+                                this.parentNode.remove();
+                            });
                         }
                     });
 
@@ -235,8 +239,11 @@ function calculateRoute() {
                             places_added.push(place.name);
                             // console.log(places_added);
                             let list_display = $("#list_display");
-                            list_display.append("<ul><li><img id=place_img src=" + place.photos[0].getUrl() + "><strong>" + place.name + " - Address is: " + place.vicinity + "</strong><button id=close class=btn-danger onclick=this.parentNode.remove()>X</button></li></ul>")
-
+                            list_display.append("<ul><li><img id=place_img src=" + place.photos[0].getUrl() + "><strong>" + place.name + " - Address is: " + place.vicinity + "</strong><button id=close class=btn-danger>X</button></li></ul>")
+                            $(".btn-danger").on("click", function () {
+                                places_added.pop(place.name)
+                                this.parentNode.remove();
+                            });
                         }
                     });
                 });
