@@ -49,26 +49,8 @@ body h1 {
     border-radius: 0.5rem;
 }
 
-.places_card {
-    width: 99%;
-    font-size: 20px;
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.9);
-    padding: 10px;
-    text-align: center;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    margin-right: 0px;
-    position: relative;
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border-radius: 0.25rem;
+card{
+
 }
 
 #list_display {
@@ -99,7 +81,7 @@ ul li {
     margin-top: -1px;
     /* Prevent double borders */
     background-color: #f6f6f6;
-    padding: 12px;
+    padding: 20px;
     text-decoration: none;
     font-size: 18px;
     color: black;
@@ -117,6 +99,11 @@ ul li:hover {
     top: 50%;
     right: 1%;
     padding: 12px 16px;
-    transform: translate(0%, -50%); 
+    /* transform: translate(0%, -50%);  */
     /* background-color: red; */
+}
+
+#place_img{
+    width: 125px;
+    height: 125px;
 }

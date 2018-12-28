@@ -26,19 +26,6 @@ var Coords = [{
 let places_added = [];
 $("#point_A").focus();
 
-/* Get all elements with class="close" */
-var closebtns = $("#close");
-var i;
-
-/* Loop through the elements, and hide the parent, when clicked on */
-for (i = 0; i < closebtns.length; i++) {
-    closebtns[i].addEventListener("click", function () {
-        console.log("clicked");
-        
-        this.parentElement.style.display = 'none';
-    })};
-
-
 //go functio
 $("#go").on("click", function (event) {
 
@@ -121,7 +108,7 @@ function calculateRoute() {
     GetLatlong_A();
 
     var myOptions = {
-        zoom: 10,
+        zoom: 15,
         center: lat_lng_A,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
@@ -159,7 +146,7 @@ function calculateRoute() {
             map = new google.maps.Map(document.getElementById('map_display'), {
                 //changing this will work to change point of interest location
                 center: lat_lng_A,
-                zoom: 8
+                zoom: 15
             });
             infowindow = new google.maps.InfoWindow();
             var service = new google.maps.places.PlacesService(map);
@@ -185,10 +172,10 @@ function calculateRoute() {
                     position: place.geometry.location
                 });
 
-                google.maps.event.addListener(marker, 'mouseover', function () {
-                    infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
+                google.maps.event.addListener(marker, 'click', function () {
                     infowindow.open(map, this);
-                    console.log(place);
+                    infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
+                    // console.log(place);
 
                     $(".add_btn").on("click", function () {
                         if (places_added.includes(place.name)) {
@@ -196,15 +183,8 @@ function calculateRoute() {
                             return;
                         } else {
                             places_added.push(place.name);
-                            console.log(places_added);
                             let list_display = $("#list_display");
-                            list_display.append("<ul><li><img src="+place.icon+ "><strong>" + place.name + "</strong> - Address is: " + "<button id=close class=btn-danger >x </button>" + place.vicinity + "   - Rating: "+ place.rating+"</li></ul>")
-
-
-                            // let places_card = $("<div class= places_card></div>")
-                            // list_display.append(places_card)
-                            // places_card.append("<button id=remove class=btn-danger>Remove Me</button>");
-                            // places_card.append("<br><strong>" +place.name + "</strong><br>" + place.vicinity);
+                            list_display.append("<ul><li><card><img id=place_img src="+place.photos[0].getUrl()+ "><strong>" + place.name + " - Address is: " + place.vicinity + "</strong><button id=close class=btn-danger >Remove</button></card></li></ul>")
                         }
                     });
 
@@ -216,7 +196,7 @@ function calculateRoute() {
                 //changing this will work to change point of interest location0
 
                 center: lat_lng_B,
-                zoom: 8
+                zoom: 15
             });
 
             infowindow = new google.maps.InfoWindow();
@@ -239,16 +219,13 @@ function calculateRoute() {
             }
 
             function createMarker(place) {
+                close_card();
                 // var placeLoc = place.geometry.location;
                 var marker = new google.maps.Marker({
                     map: map,
                     position: place.geometry.location
                 });
-                console.log(place.name)
-                console.log(place.photos[0].getUrl());
-                console.log(place.vicinity);
-
-                google.maps.event.addListener(marker, 'mouseover', function () {
+                google.maps.event.addListener(marker, 'click', function () {
                     infowindow.setContent("<button class = add_btn> Add to Places to Visit </button> " + '<div><strong>' + place.name + '</strong><br>' + place.vicinity + "</div>");
                     infowindow.open(map, this);
                     $(".add_btn").on("click", function () {
@@ -257,12 +234,10 @@ function calculateRoute() {
                             return;
                         } else {
                             places_added.push(place.name);
-                            console.log(places_added);
+                            // console.log(places_added);
                             let list_display = $("#list_display");
-                            let places_card = $("<div class= places_card></div>")
-                            list_display.append(places_card)
-                            places_card.append("<button id=remove class=btn-danger>Remove Me</button>");
-                            places_card.append("<br><strong>" + place.name + "</strong><br>" + place.vicinity);
+                            list_display.append("<ul><li><card><img id=place_img src="+place.photos[0].getUrl()+ "alt = Sorry No Image For This Place><strong>" +"  "+ place.name + "</strong></br> Address is: " + "<button id=close class=btn-danger >Remove</button>" + place.vicinity + "</card></li></ul>")
+
                         }
                     });
                 });
@@ -277,7 +252,7 @@ function initMap() {
     var directionsDisplay = new google.maps.DirectionsRenderer;
     var directionsService = new google.maps.DirectionsService;
     var map = new google.maps.Map(document.getElementById("map_display"), {
-        zoom: 7,
+        zoom: 15,
         center: {
             lat: 41.85,
             lng: -87.65
@@ -309,4 +284,6 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
         }
     });
 }
+
+
 
